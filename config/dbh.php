@@ -1,21 +1,30 @@
 <?php
 
-    class Dbh{
-        private $servername;
-        private $username;
-        private $password;
-        private $dbname;
+class Dbh {
+    private $servername;
+    private $username;
+    private $password;
+    private $dbname;
+    private $charset;
 
-        protected function connect()
-        {
-            $this->servername = "localhost";
-            $this->username = "root";
-            $this->password = "";
-            $this->dbname = "donneesdecinema";
+    public function connect() {
+        $this->servername = "localhost";
+        $this->username = "root";
+        $this->password = "";
+        $this->dbname = "donneesdecinema";
 
-            $conn = new mysqli($this->servername ,$this->username, $this->password,$this->dbname);
-            return $conn;
+        try {
+            $dsn = "mysql:host=" . $this->servername . ";dbname=" . $this->dbname;
+            $pdo = new PDO($dsn, $this->username, $this->password);
+            echo "Connection successful!";
+            return $pdo;
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
         }
     }
+}
+
+$dbh = new Dbh();
+$dbh->connect();
 
 ?>

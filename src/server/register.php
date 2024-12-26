@@ -2,11 +2,11 @@
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    include "../../src/classes/RegisterUser.php";
     if (isset($_POST["emailRegister"])) {
+        require_once "../../src/classes/RegisterUser.php";
 
-        // $data = file_get_contents("php://input");
-        // $userdata = json_decode($data, true);
+
+
     
         $nameregister = $_POST["nameRegister"];
         $emailregister = $_POST["emailRegister"];
@@ -16,11 +16,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     
         $obj = new RegisterUser($nameregister, $emailregister, $passwordregister, $repeatPasswordregister);
     
-        $validationResult = $obj->validate();
+        $obj->addData();
     
-    
-        var_dump($validationResult);
-        exit;
+
+
     }
 }
 

@@ -60,7 +60,25 @@ class RegisterUser{
         $validatiovalue = $this->validate();
         if($validatiovalue["success"])
         {
-            
+            require_once "../../config/dbh.php";
+            $hashedPassword = password_hash($this->passwordRegister, PASSWORD_DEFAULT);
+            try {
+                $dbh = new Dbh();
+                $pdo = $dbh->connect();
+
+                $stmt = $pdo->prepare("INSERT INTO users (name_user, email_user, password_user) VALUES (:name_user, :email_user, :password_user)");
+
+                $stmt->execute([
+                    ':name_user' => $this->nameregister,
+                    ':email_user' => $this->emailregister,
+                    ':password_user' => $hashedPassword
+                ]);
+
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+          
+          
         }
     }
 
